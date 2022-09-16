@@ -1,15 +1,26 @@
 import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { TaskController } from "./task/task.controller";
-import { TaskService } from "./task/task.service";
-import { TaskModule } from "./task/task.module";
-import { MongooseModule } from "@nestjs/mongoose";
+import { PostModule } from "./post/post.module";
 
 @Module({
-  imports: [TaskModule, MongooseModule.forRoot("mongodb://localhost/nest")],
-  //Controladores, son las rutas del servidor
-  controllers: [AppController, TaskController],
-  providers: [AppService, TaskService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: "mysql",
+      host: "localhost",
+      username: "root",
+      password: "root",
+      database: "test",
+      entities: [],
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+    PostModule,
+  ],
+  //Controladores, son las rutas del servidor, reciben las request
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
