@@ -8,31 +8,43 @@ import {
   Post,
   Put,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { CreatePostDto, EditPostDto } from "./dto";
 import { PostService } from "./post.service";
 
+@ApiTags("Post Module")
 @Controller("post")
 export class PostController {
   constructor(private readonly postService: PostService) {}
   @Get()
-  getMany() {
-    return this.postService.getMany();
+  async getMany() {
+    const data = await this.postService.getMany();
+    return {
+      message: "Get successfully",
+      data,
+    };
   }
 
   @Get(":id")
   getOne(@Param("id", ParseIntPipe) id: number) {
-    return this.postService.getOne(2);
+    return this.postService.getOne(id);
   }
   @Post()
-  createPost(@Body() dto: CreatePostDto) {
-    return this.postService.createOne(dto);
+  async createPost(@Body() dto: CreatePostDto) {
+    const data = await this.postService.createOne(dto);
+    console.log("data", data);
+
+    return {
+      message: "Post successfully",
+      data,
+    };
   }
   @Put(":id")
-  modifyPost(@Param("id") id: number, @Body() dto: EditPostDto) {
-    return this.postService.editOne(2, dto);
+  async modifyPost(@Param("id") id: number, @Body() dto: EditPostDto) {
+    return await this.postService.editOne(id, dto);
   }
   @Delete(":id")
-  deletePost(@Param("id") id: number) {
-    return this.postService.deleteOne(2);
+  async deletePost(@Param("id") id: number) {
+    return await this.postService.deleteOne(id);
   }
 }

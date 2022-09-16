@@ -13,7 +13,7 @@ import { PostModule } from "./post/post.module";
       username: "root",
       password: "root",
       database: "test",
-      entities: [],
+      entities: [__dirname + "./**/**/*entity{.ts,.js}"],
       autoLoadEntities: true,
       synchronize: true,
     }),
