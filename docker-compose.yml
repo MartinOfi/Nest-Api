@@ -1,15 +1,21 @@
-
 services:
   database:
     image: mysql:5.6
     command: --default-authentication-plugin=mysql_native_password
     volumes:
-      - "./mysql-data/db:/var/lib/mysql"   
+      - "/containers-volumes/mysql-data/db:/var/lib/mysql" 
     restart: always
     ports:
       - 3306:3306
     environment:
       MYSQL_DATABASE: test
       MYSQL_PASSWORD: root
-      MYSQL_USER: root
+      MYSQL_USER: martin
       MYSQL_ROOT_PASSWORD: root
+  nest-service:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    command: "npm run start:dev"
+    ports:
+      - 3001:3000

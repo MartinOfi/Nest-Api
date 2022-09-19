@@ -45,6 +45,12 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+# docker componse
+
+$ docker-compose up/down -p (-p para el nombre)
+
+$ docker-compose up -d --force-recreate --build (forzamos la creacion de la imagen)
+
 ## Test
 
 ```bash

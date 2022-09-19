@@ -4,12 +4,13 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { PostModule } from "./post/post.module";
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: "mysql",
-      host: "localhost",
+      host: "database",
       username: "root",
       password: "root",
       database: "test",
@@ -18,6 +19,7 @@ import { PostModule } from "./post/post.module";
       synchronize: true,
     }),
     PostModule,
+    UserModule,
   ],
   //Controladores, son las rutas del servidor, reciben las request
   controllers: [AppController],
