@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from "@nestjs/common";
-import { CreateUserDto } from "./dtos";
+import { CreateUserDto, EditUserDto } from "./dtos";
 import { UserService } from "./user.service";
 
 @Controller("user")
@@ -38,9 +38,21 @@ export class UserController {
     };
   }
 
-  @Put()
-  async editOne() {}
+  @Put(":id")
+  async editOne(@Param("id") id: number, @Body() dto: EditUserDto) {
+    const data = await this.userService.editOne(id, dto);
+    return {
+      message: "user updated successfully",
+      data,
+    };
+  }
 
-  @Delete()
-  async deleteOne() {}
+  @Delete(":id")
+  async deleteOne(@Param("id") id: number) {
+    const data = await this.userService.deleteOne(id);
+    return {
+      message: "user deleted successfully",
+      data,
+    };
+  }
 }
