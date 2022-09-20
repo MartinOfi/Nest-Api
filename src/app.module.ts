@@ -13,6 +13,7 @@ import {
 } from "./config/constants";
 import { PostModule } from "./post/post.module";
 import { UserModule } from "./user/user.module";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { UserModule } from "./user/user.module";
       isGlobal: true,
       envFilePath: ".env",
     }),
+    AuthModule,
   ],
   //Controladores, son las rutas del servidor, reciben las request
   controllers: [AppController],

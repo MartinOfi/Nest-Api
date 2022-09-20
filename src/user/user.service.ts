@@ -1,11 +1,4 @@
-import {
-  Delete,
-  Get,
-  Injectable,
-  NotFoundException,
-  Post,
-  Put,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateUserDto, EditUserDto } from "./dtos";
@@ -49,5 +42,14 @@ export class UserService {
   async deleteOne(id: number) {
     const user = await this.getOne(id);
     return await this.userRepository.remove(user);
+  }
+
+  //El create querybuilder lo hacemos porque en el user.entity dijimos que la contraseña no se va a retornar, entonces con el addSelect podemos obtenerla
+  async findByEmail(email: string) {
+    return await this.userRepository
+      .createQueryBuilder("user")
+      .where({ email })
+      .addSelect("user.password")
+      .getOne();
   }
 }
