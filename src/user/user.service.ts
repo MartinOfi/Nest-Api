@@ -24,14 +24,20 @@ export class UserService {
 
   async getOne(id: number) {
     const user = await this.userRepository.findOne({ where: { id: id } });
-
     if (!user) throw new NotFoundException("usuario no existe");
     return user;
   }
 
   async createOne(dto: CreateUserDto) {
-    const newUser = this.userRepository.create(dto);
-    return await this.userRepository.save(newUser);
+    const userExist = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
+    if (userExist)
+      throw new NotFoundException("email ya registrado, intente con otro");
+    const newUser = await this.userRepository.create(dto);
+    const user = await this.userRepository.save(newUser);
+    delete user.password;
+    return user;
   }
 
   editOne(id: string) {}
